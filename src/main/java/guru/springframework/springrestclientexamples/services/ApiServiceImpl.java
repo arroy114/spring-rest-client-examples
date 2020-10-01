@@ -40,7 +40,7 @@ public class ApiServiceImpl implements ApiService {
     }
 
     @Override
-    public Flux<User> getUser(Mono<Integer> limit) {
+    public Flux<User> getUsers(Mono<Integer> limit) {
         return WebClient.create(api_url)
                 .get()
                 .uri(uriBuilder -> uriBuilder.queryParam("limit",limit.block()).build())

@@ -10,5 +10,5 @@ public interface ApiService {
 
     List<User> getUsers(Integer limit);
 
-    Flux<User> getUser(Mono<Integer> limit);
+    Flux<User> getUsers(Mono<Integer> limit);
 }
