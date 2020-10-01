@@ -4,7 +4,6 @@ import guru.springframework.springrestclientexamples.services.ApiService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.server.ServerWebExchange;
@@ -27,12 +26,27 @@ public class UserController {
         return "index";
     }
 
+    //Reactive
     @PostMapping("/users")
     public String formPost(Model model, ServerWebExchange serverWebExchange){
 
-        MultiValueMap<String, String> map = serverWebExchange.getFormData().block();
+        model.addAttribute("users",
+                apiService.getUsers(serverWebExchange
+                                .getFormData()
+                                .map(data -> new Integer(data.getFirst("limit")))));
 
-        Integer limit = new Integer(map.get("limit").get(0));
+        return "userlist";
+    }
+
+    //Non reactive
+/*    @PostMapping("/users")
+    public String formPost(Model model, ServerWebExchange serverWebExchange){
+
+        //ServerWebExchange: Provides access to the HTTP request and response
+        //.getFormData(): used to get form data from html-form
+        MultiValueMap<String, String> map = serverWebExchange.getFormData().block();
+        //Getting a value limit form the map
+        Integer limit = Integer.valueOf(map.get("limit").get(0));
 
         //log.debug("Received Limit value: " + limit);
         //default if null or zero
@@ -44,5 +58,5 @@ public class UserController {
         model.addAttribute("users", apiService.getUsers(limit));
 
         return "userlist";
-    }
+    }*/
 }
