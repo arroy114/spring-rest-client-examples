@@ -25,6 +25,10 @@ public class ApiServiceImpl implements ApiService {
         this.api_url = api_url;
     }
 
+    //Two method to perform HTTP request: RestTemplate, Webclient
+    //Webclient is the new in Spring 5
+
+    //Using RestTemplate
     @Override
     public List<User> getUsers(Integer limit) {
 
@@ -39,6 +43,7 @@ public class ApiServiceImpl implements ApiService {
         return userData.getData();
     }
 
+    //Using Webclient
     @Override
     public Flux<User> getUsers(Mono<Integer> limit) {
         return WebClient.create(api_url)
